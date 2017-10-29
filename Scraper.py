@@ -7,12 +7,14 @@ from telepot.namedtuple import InlineQueryResultArticle, InputTextMessageContent
 from Config import NO_RESULTS_ALERT, CANCEL_DATA_STRING, NO_RESULTS_TEXT, CANCEL_BUTTON_TEXT, \
     TITLE_ARTIST_SEPARATOR, REFINE_BUTTON_TEXT, MAX_BUTTON_DATA, MAX_RESULTS
 
+__author__ = "Franco Cruces Ayala"
+
 
 def get_chords_as_inline_keyboard(query):
     """
     Return a InlineQueryResultArticle object. The selection sends a message with an inline keyboard, where every button
     is a search result.
-    :param query: A query for searching @https://search.azlyrics.com/
+    :param query: A query for searching @https://www.ultimate-guitar.com/
     :return: an InlineQueryResultArticle object
     """
     buttons = get_inline_keyboard_buttons(query)
@@ -44,8 +46,8 @@ def get_chords_as_inline_keyboard(query):
 
 def get_inline_keyboard_buttons(query):
     """
-    Get lyrics from AZLyrics. First search and then generate Articles as a Inline Query Result.
-    :param query: A query for searching @https://search.azlyrics.com/
+    Get chords from UG. First search and then generate Articles as a Inline Query Result.
+    :param query: A query for searching @https://www.ultimate-guitar.com/
     :return: Array with InlineKeyboardButtons
     """
     buttons = []
@@ -66,6 +68,11 @@ def get_inline_keyboard_buttons(query):
 
 
 def get_chords(url_suf):
+    """
+    Get chords from given url
+    :param url_suf: UG URL suffix
+    :return: chord section for given URL as a string
+    """
     print("Requesting: " + 'https://tabs.ultimate-guitar.com/' + url_suf)
     page = requests.get(
         'https://tabs.ultimate-guitar.com/' + url_suf)
@@ -76,6 +83,11 @@ def get_chords(url_suf):
 
 
 def get_search_result(query):
+    """
+    Search given query at https://www.ultimate-guitar.com/s. Return array of songs where each element is a dictionary
+    :param query: A query for searching @https://www.ultimate-guitar.com/search.php
+    :return: Array with dictionaries
+    """
     search_query = "https://www.ultimate-guitar.com/search.php?title=" \
                    + query.replace(" ", "+") + "&page=1&tab_type_group=text&app_name=ugt&order=myweight&type=300"
     print("Search: " + search_query)
