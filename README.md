@@ -1,4 +1,4 @@
-# Easy Lyrics Bot
+# Easy Chords Bot
 This is an inline mode bot that retrieves chords from UG for the given query.
 
 ## How it works
