@@ -62,7 +62,7 @@ def get_inline_keyboard_buttons(query):
             callback_data=song['url'].replace('https://tabs.ultimate-guitar.com/', ''),
         )])
         count += 1
-        if count >= MAX_RESULTS:
+        if count >= MAX_RESULTS != -1:
             break
     return buttons
 
@@ -73,12 +73,13 @@ def get_chords(url_suf):
     :param url_suf: UG URL suffix
     :return: chord section for given URL as a string
     """
-    print("Requesting: " + 'https://tabs.ultimate-guitar.com/' + url_suf)
-    page = requests.get(
-        'https://tabs.ultimate-guitar.com/' + url_suf)
+    url = 'https://tabs.ultimate-guitar.com/' + url_suf
+    print("Requesting: " + url)
+    page = requests.get(url)
     soup = BeautifulSoup(page.content, 'lxml')
-    chords = soup.find_all("pre", class_='js-tab-content js-init-edit-form js-copy-content js-tab-controls-item')[
-        0].text
+    chords = "URL: " + str(url) + "\n\n" + \
+             soup.find_all("pre", class_='js-tab-content js-init-edit-form js-copy-content js-tab-controls-item')[
+                 0].text
     return chords
 
 
