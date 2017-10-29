@@ -54,7 +54,7 @@ def get_inline_keyboard_buttons(query):
     search_results = get_search_result(query)
     count = 0
     for song in search_results:
-        title = song['title'] + TITLE_ARTIST_SEPARATOR + song['artist']
+        title = song['title'] + TITLE_ARTIST_SEPARATOR + song['artist'] + " [" + song['rating'] + "]"
         if len(song['url'].replace('https://tabs.ultimate-guitar.com/', '')) > MAX_BUTTON_DATA:
             continue
         buttons.append([InlineKeyboardButton(
@@ -103,19 +103,20 @@ def get_search_result(query):
         row = a_row.find_all('td')
         if not len(row):
             continue
-        off = 0
+        offset = 0
         if row[0].text == "THIS APP DOESN'T HAVE RIGHTS TO DISPLAY TABS":
-            off = 1
+            offset += 1
         search_result = {
-            'artist': row[0 + off].text.strip(),
-            'url': row[1 + off].a.get('href'),
-            'title': row[1 + off].text.replace("\n", "").split("+")[0].split(" info ")[0].strip(),
-            'rating': row[2 + off].span.get("title") if not (row[2].span is None) else "No Rating",
-            'amount_ratings': row[2 + off].find_all('b', class_="ratdig")[0].text if len(
+            'artist': row[0 + offset].text.strip(),
+            'url': row[1 + offset].a.get('href'),
+            'title': row[1 + offset].text.replace("\n", "").split("+")[0].split(" info ")[0].strip(),
+            'rating': row[2 + offset].span.get("title") if not (row[2].span is None) else "-",
+            'amount_ratings': row[2 + offset].find_all('b', class_="ratdig")[0].text if len(
                 row[2].find_all('b', class_="ratdig")) != 0 else "-",
-            'rtype': row[3 + off].text.replace("\n", "")}
+            'rtype': row[3 + offset].text.replace("\n", "")}
         results.append(search_result)
         count += 1
+    # TODO: Group versions of each song.
     return filter_type(fix_artists(results), "chords")
 
 
