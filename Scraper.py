@@ -1,3 +1,5 @@
+import time
+
 import requests
 import requests.adapters
 from bs4 import BeautifulSoup
@@ -89,6 +91,8 @@ def get_search_result(query):
     :param query: A query for searching @https://www.ultimate-guitar.com/search.php
     :return: Array with dictionaries
     """
+    if query == "":
+        return []
     search_query = "https://www.ultimate-guitar.com/search.php?title=" \
                    + query.replace(" ", "+") + "&page=1&tab_type_group=text&app_name=ugt&order=myweight&type=300"
     print("Search: " + search_query)

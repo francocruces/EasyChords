@@ -75,7 +75,7 @@ bot = telepot.aio.DelegatorBot(TOKEN, [intercept_callback_query_origin(
 
 loop = asyncio.get_event_loop()
 
-loop.create_task(MessageLoop(bot).run_forever())
+loop.create_task(MessageLoop(bot).run_forever(2.5))
 print('Listening ...')
 
 loop.run_forever()
